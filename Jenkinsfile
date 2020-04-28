@@ -1,16 +1,21 @@
 pipeline {
-    agent any
-    stages {
-      stage(‘Lint HTML’) {
-        steps {
-          sh ‘tidy -q -e *.html’
-        }
-      stage(‘Upload to AWS’) {
-        steps {
-          withAWS(region:’us-east-2’,credentials:’blueocean’) {
-            s3Upload(pathStyleAccessEnabled:true, payloadSigningEnabled: true, file:’index.html’, bucket:’jenproject’)
-          }
-        }
+  agent any
+  stages {
+  
+	stage('lint HTML') {
+	steps {
+		tidy -q -e *.html
+		}
+	}
+    stage('Upload to AWS') {
+      steps {
+        sh 'echo "Hello World"'
+        sh '''
+                    echo "Multiline shell steps works too"
+                    ls -lah
+                '''
       }
     }
+
+  }
 }
